@@ -18,12 +18,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         auth = Firebase.auth
 
-        findViewById<Button>(R.id.logoutBtn).setOnClickListener {
-            auth.signOut()
-
-            //intro 액티비티로 이동
-            val intent = Intent(this, IntroActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //기존 액티비티 모두 종
-            startActivity(intent)        }
+//        findViewById<Button>(R.id.logoutBtn).setOnClickListener {
+//            auth.signOut()
+//
+//            //intro 액티비티로 이동
+//            val intent = Intent(this, IntroActivity::class.java)
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //기존 액티비티 모두 종
+//            startActivity(intent)        }
     }
 }
