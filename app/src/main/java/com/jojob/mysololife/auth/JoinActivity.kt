@@ -66,13 +66,13 @@ class JoinActivity : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(email, password1)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                             //main 액티비티로 이동
                             val intent = Intent(this, MainActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //기존 액티비티 모두 종
                             startActivity(intent)
                         } else {
-                            Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
                         }
                     }
             }
