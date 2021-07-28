@@ -1,4 +1,4 @@
-package com.jojob.mysololife.auth.fragments
+package com.jojob.mysololife.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.jojob.mysololife.R
 import com.jojob.mysololife.databinding.FragmentStoreBinding
-import com.jojob.mysololife.databinding.FragmentTipBinding
 
 class StoreFragment : Fragment() {
 

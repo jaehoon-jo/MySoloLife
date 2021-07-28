@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MySoloLife">
-        <activity android:name=".auth.JoinActivity"></activity>
+        <activity android:name=".contensList.ContentsListActivity"></activity>
+        <activity android:name=".auth.JoinActivity" />
         <activity android:name=".auth.LoginActivity" />
         <activity android:name=".auth.IntroActivity" />
         <activity android:name=".SplashActivity">
