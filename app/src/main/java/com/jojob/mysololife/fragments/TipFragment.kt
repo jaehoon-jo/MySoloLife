@@ -28,8 +28,16 @@ class TipFragment : Fragment() {
 
         binding.category1.setOnClickListener {
             val intent = Intent(context, ContentsListActivity::class.java)
+            intent.putExtra("category", "category1")
             startActivity(intent)
         }
+
+        binding.category2.setOnClickListener {
+            val intent = Intent(context, ContentsListActivity::class.java)
+            intent.putExtra("category", "category2")
+            startActivity(intent)
+        }
+
 
         binding.homeTab.setOnClickListener {
             it.findNavController().navigate(R.id.action_tipFragment_to_homeFragment)
