@@ -25,7 +25,9 @@ class ContentsListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_contents_list)
 
         val items = ArrayList<ContentModel>()
-        val rvAdapter = ContentsRVAdapter(baseContext, items)
+        val itemKeyList = ArrayList<String>()
+
+        val rvAdapter = ContentsRVAdapter(baseContext, items, itemKeyList)
 
         val database = Firebase.database
 
@@ -44,8 +46,11 @@ class ContentsListActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for(dataModel in dataSnapshot.children){
                     Log.d("ContentsListActivity", dataModel.toString())
+                    Log.d("ContentsListActivity", dataModel.key.toString())
+
                     val item = dataModel.getValue(ContentModel::class.java)
                     items.add(item!!)
+                    itemKeyList.add(dataModel.key.toString())
                 }
                 // 동기화
                 rvAdapter.notifyDataSetChanged()
@@ -63,19 +68,6 @@ class ContentsListActivity : AppCompatActivity() {
 
         rv.adapter = rvAdapter
         rv.layoutManager = GridLayoutManager(this, 2)
-
-        rvAdapter.itemClick = object : ContentsRVAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this@ContentsListActivity, ContentShowActivity::class.java)
-                intent.putExtra("url", items[position].webUrl)
-                startActivity(intent)
-
-            }
-        }
-
-
 
 //        val myRef2 = database.getReference("contents2")
 //
