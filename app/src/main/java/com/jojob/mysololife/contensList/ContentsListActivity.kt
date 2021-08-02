@@ -21,7 +21,6 @@ import com.jojob.mysololife.utils.FBRef
 class ContentsListActivity : AppCompatActivity() {
 
     private lateinit var myRef : DatabaseReference
-
     private lateinit var rvAdapter: ContentsRVAdapter
 
     val bookmarkIdList = mutableListOf<String>()
@@ -37,10 +36,8 @@ class ContentsListActivity : AppCompatActivity() {
 
         val database = Firebase.database
 
+        // 어떤 카테고리를 선택했는지 받아옴
         val category = intent.getStringExtra("category")
-
-
-
         if(category == "category1") {
              myRef = database.getReference("contents")
         }
