@@ -16,7 +16,7 @@ import com.jojob.mysololife.R
 import com.jojob.mysololife.utils.FBAuth
 import com.jojob.mysololife.utils.FBRef
 
-class ContentsRVAdapter (val context : Context,
+class  ContentsRVAdapter (val context : Context,
                          val items : ArrayList<ContentModel>,
                          val itemKeyList : ArrayList<String>,
                          val bookmarkIdList : MutableList<String>)
