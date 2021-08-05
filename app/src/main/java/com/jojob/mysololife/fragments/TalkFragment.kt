@@ -26,6 +26,7 @@ class TalkFragment : Fragment() {
 
     private lateinit var binding : FragmentTalkBinding
     private val boardDataList = mutableListOf<BoardModel>()
+    private val boardKeyList = mutableListOf<String>()
 
     private val TAG = TalkFragment::class.java.simpleName
 
@@ -55,8 +56,7 @@ class TalkFragment : Fragment() {
 
             // 방법 2. 선택한 view의 id를 바탕으로 firebase로부터 데이터를 받아오는 방식
             val intent = Intent(context, BoardInsideActivity::class.java)
-
-
+            intent.putExtra("key", boardKeyList[position])
             startActivity(intent)
         }
 
@@ -94,8 +94,10 @@ class TalkFragment : Fragment() {
                     Log.d(TAG, dataModel.toString())
                     val item = dataModel.getValue(BoardModel::class.java)
                     boardDataList.add(item!!)
+                    boardKeyList.add(dataModel.key.toString())
                 }
                 boardDataList.reverse()
+                boardKeyList.reverse()
                 boardRVAdapter.notifyDataSetChanged()
             }
 
