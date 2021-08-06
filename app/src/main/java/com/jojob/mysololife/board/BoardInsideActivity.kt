@@ -3,7 +3,11 @@ package com.jojob.mysololife.board
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
@@ -26,6 +30,10 @@ class BoardInsideActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
 
+        binding.boardSettingBtn.setOnClickListener {
+            showDialog()
+        }
+
         // 방법 1.
 //        val title = intent.getStringExtra("title").toString()
 //        val content = intent.getStringExtra("content").toString()
@@ -42,6 +50,22 @@ class BoardInsideActivity : AppCompatActivity() {
         getImageData(key)
     }
 
+    private fun showDialog() {
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("게시글 수정/삭제")
+
+        val alertDialog = mBuilder.show()
+        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener {
+            Toast.makeText(this, "edit", Toast.LENGTH_LONG).show()
+        }
+
+        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
+            Toast.makeText(this, "remove", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun getImageData(key: String) {
         val storageReference = Firebase.storage.reference.child(key + ".png")
 
@@ -52,8 +76,6 @@ class BoardInsideActivity : AppCompatActivity() {
                 Glide.with(this)
                     .load(task.result)
                     .into(imageViewFromFB)
-            } else {
-
             }
         })
     }
