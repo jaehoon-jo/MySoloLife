@@ -19,12 +19,12 @@ import com.google.firebase.storage.ktx.storage
 import com.jojob.mysololife.R
 import com.jojob.mysololife.databinding.ActivityBoardInsideBinding
 import com.jojob.mysololife.utils.FBRef
+import java.lang.Exception
 
 class BoardInsideActivity : AppCompatActivity() {
-
     private val TAG = BoardInsideActivity::class.java.simpleName
-
     private lateinit var binding: ActivityBoardInsideBinding
+    private lateinit var key: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +44,7 @@ class BoardInsideActivity : AppCompatActivity() {
 //        binding.timeArea.text = time
 
         // 방법 2.
-        val key = intent.getStringExtra("key").toString()
+        key = intent.getStringExtra("key").toString()
 
         getBoardData(key)
         getImageData(key)
@@ -62,8 +62,18 @@ class BoardInsideActivity : AppCompatActivity() {
         }
 
         alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
-            Toast.makeText(this, "remove", Toast.LENGTH_LONG).show()
+            deleteContent()
+            Toast.makeText(this, "삭제 완료", Toast.LENGTH_LONG).show()
+            finish()
         }
+    }
+
+    private fun deleteContent() {
+        FBRef.boardRef.child(key).removeValue()
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val desertRef = storageRef.child(key + ".png")
+        desertRef.delete()
     }
 
     private fun getImageData(key: String) {
@@ -72,7 +82,7 @@ class BoardInsideActivity : AppCompatActivity() {
         val imageViewFromFB = binding.imageArea
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-            if(task.isSuccessful){
+            if (task.isSuccessful) {
                 Glide.with(this)
                     .load(task.result)
                     .into(imageViewFromFB)
@@ -83,10 +93,15 @@ class BoardInsideActivity : AppCompatActivity() {
     private fun getBoardData(key: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val dataModel = dataSnapshot.getValue(BoardModel::class.java)
-                binding.titleArea.text = dataModel?.title
-                binding.contentArea.text = dataModel?.content
-                binding.timeArea.text = dataModel?.time
+
+                try {
+                    val dataModel = dataSnapshot.getValue(BoardModel::class.java)
+                    binding.titleArea.text = dataModel?.title
+                    binding.contentArea.text = dataModel?.content
+                    binding.timeArea.text = dataModel?.time
+                } catch (e: Exception) {
+                    Log.w(TAG, "삭제")
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
