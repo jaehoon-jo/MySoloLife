@@ -1,5 +1,6 @@
 package com.jojob.mysololife.board
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -58,13 +59,17 @@ class BoardInsideActivity : AppCompatActivity() {
 
         val alertDialog = mBuilder.show()
         alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener {
-            Toast.makeText(this, "edit", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, BoardEditActivity::class.java)
+            intent.putExtra("key", key)
+            startActivity(intent)
+            alertDialog.dismiss()
         }
 
         alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
             deleteContent()
             Toast.makeText(this, "삭제 완료", Toast.LENGTH_LONG).show()
             finish()
+            alertDialog.dismiss()
         }
     }
 
