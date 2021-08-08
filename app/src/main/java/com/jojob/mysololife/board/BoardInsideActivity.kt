@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
@@ -19,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.jojob.mysololife.R
 import com.jojob.mysololife.databinding.ActivityBoardInsideBinding
+import com.jojob.mysololife.utils.FBAuth
 import com.jojob.mysololife.utils.FBRef
 import java.lang.Exception
 
@@ -104,6 +106,14 @@ class BoardInsideActivity : AppCompatActivity() {
                     binding.titleArea.text = dataModel?.title
                     binding.contentArea.text = dataModel?.content
                     binding.timeArea.text = dataModel?.time
+
+                    val myUid = FBAuth.getUid()
+                    val writerUid = dataModel!!.uid
+
+                    if(myUid.equals(writerUid)) {
+                        binding.boardSettingBtn.isVisible = true
+                    }
+
                 } catch (e: Exception) {
                     Log.w(TAG, "삭제")
                 }

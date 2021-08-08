@@ -1,13 +1,16 @@
 package com.jojob.mysololife.board
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.jojob.mysololife.R
+import com.jojob.mysololife.utils.FBAuth
 
-class BoardListViewAdapter(val boardList : MutableList<BoardModel>) : BaseAdapter() {
+class BoardListViewAdapter(val boardList: MutableList<BoardModel>) : BaseAdapter() {
     override fun getCount(): Int {
         return boardList.size
     }
@@ -22,8 +25,11 @@ class BoardListViewAdapter(val boardList : MutableList<BoardModel>) : BaseAdapte
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var view = convertView
-        if(view == null) {
-            view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item, parent, false)
+        view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item, parent, false)
+
+        val itemLinearLayoutView = view?.findViewById<LinearLayout>(R.id.itemView)
+        if (boardList[position].uid.equals(FBAuth.getUid())) {
+            itemLinearLayoutView?.setBackgroundColor(Color.parseColor("#ffa500"))
         }
 
         val title = view?.findViewById<TextView>(R.id.titleArea)
