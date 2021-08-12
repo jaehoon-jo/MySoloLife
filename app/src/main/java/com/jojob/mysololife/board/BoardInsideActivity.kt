@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -19,6 +18,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.jojob.mysololife.R
+import com.jojob.mysololife.comment.CommentListViewAdapter
+import com.jojob.mysololife.comment.CommentModel
 import com.jojob.mysololife.databinding.ActivityBoardInsideBinding
 import com.jojob.mysololife.utils.FBAuth
 import com.jojob.mysololife.utils.FBRef
@@ -28,6 +29,8 @@ class BoardInsideActivity : AppCompatActivity() {
     private val TAG = BoardInsideActivity::class.java.simpleName
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
+    private val commentDataList = mutableListOf<CommentModel>()
+    private lateinit var commentAdapter : CommentListViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +52,27 @@ class BoardInsideActivity : AppCompatActivity() {
         // 방법 2.
         key = intent.getStringExtra("key").toString()
 
+        commentAdapter = CommentListViewAdapter(commentDataList)
+        binding.commentListView.adapter = commentAdapter
+
         getBoardData(key)
         getImageData(key)
+        getCommentData(key)
+
+        binding.commentBtn.setOnClickListener {
+            insertComment(key)
+        }
+    }
+
+
+
+    private fun insertComment(key: String) {
+        FBRef.commentRef
+            .child(key)
+            .push()
+            .setValue(CommentModel(binding.commentArea.text.toString(), FBAuth.getTime()))
+        Toast.makeText(this, "댓글 작성 완료", Toast.LENGTH_LONG).show()
+        binding.commentArea.setText("")
     }
 
     private fun showDialog() {
@@ -102,7 +124,6 @@ class BoardInsideActivity : AppCompatActivity() {
     private fun getBoardData(key: String) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
                 try {
                     val dataModel = dataSnapshot.getValue(BoardModel::class.java)
                     binding.titleArea.text = dataModel?.title
@@ -127,5 +148,24 @@ class BoardInsideActivity : AppCompatActivity() {
             }
         }
         FBRef.boardRef.child(key).addValueEventListener(postListener)
+    }
+
+    private fun getCommentData(key : String) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                commentDataList.clear()
+                for(dataModel in dataSnapshot.children){
+                    val item = dataModel.getValue(CommentModel::class.java)
+                    commentDataList.add(item!!)
+                }
+                commentAdapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FBRef.commentRef.child(key).addValueEventListener(postListener)
     }
 }

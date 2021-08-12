@@ -84,9 +84,9 @@
                     android:layout_marginRight="20dp" />
 
                 <ListView
+                    android:id="@+id/commentListView"
                     android:layout_width="match_parent"
-                    android:layout_height="600dp"
-                    android:background="#999999" />
+                    android:layout_height="600dp"/>
 
             </LinearLayout>
 
@@ -99,11 +99,20 @@
             android:background="@color/white">
 
             <EditText
-                android:text="댓글을 입력해주세요"
+                android:id="@+id/commentArea"
+                android:hint="댓글을 입력해주세요"
                 android:background="@android:color/transparent"
-                android:layout_marginRight="80dp"
-                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="8"
                 android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@+id/commentBtn"
+                android:src="@drawable/btnwrite"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
