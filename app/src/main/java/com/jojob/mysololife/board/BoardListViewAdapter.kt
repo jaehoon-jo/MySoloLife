@@ -25,8 +25,6 @@ class BoardListViewAdapter(val boardList: MutableList<BoardModel>) : BaseAdapter
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var view = convertView
-
-        //https://www.google.com/search?q=listview+android+view+%EC%9E%AC%ED%99%9C%EC%9A%A9&rlz=1C5CHFA_enKR943KR943&oq=listview+android+view+%EC%9E%AC%ED%99%9C%EC%9A%A9&aqs=chrome..69i57j0i333l4.2493j0j7&sourceid=chrome&ie=UTF-8
         view = LayoutInflater.from(parent?.context).inflate(R.layout.board_list_item, parent, false)
 
         val itemLinearLayoutView = view?.findViewById<LinearLayout>(R.id.itemView)
