@@ -57,7 +57,6 @@ class ContentsListActivity : AppCompatActivity() {
                     itemKeyList.add(dataModel.key.toString())
                 }
 
-
                 // 동기화
                 rvAdapter.notifyDataSetChanged()
                 Log.d("ContentsListActivity", items.toString())

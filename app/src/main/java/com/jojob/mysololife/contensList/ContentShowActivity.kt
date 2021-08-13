@@ -3,6 +3,7 @@ package com.jojob.mysololife.contensList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.Toast
 import com.jojob.mysololife.R
 
@@ -15,5 +16,6 @@ class ContentShowActivity : AppCompatActivity() {
 
         val webView : WebView = findViewById(R.id.webView)
         webView.loadUrl(getUrl.toString())
+        webView.setWebViewClient(WebViewClient())
     }
 }
