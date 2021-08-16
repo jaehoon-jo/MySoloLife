@@ -22,7 +22,7 @@ import com.jojob.mysololife.utils.FBRef
 
 class HomeFragment : Fragment() {
 
-    private lateinit var binding : FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private val TAG = HomeFragment::class.java.simpleName
     private lateinit var rvAdapter: BookmarkRVAdapter
     val bookmarkIdList = mutableListOf<String>()
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
 
         rvAdapter = BookmarkRVAdapter(requireContext(), items, itemKeyList, bookmarkIdList)
 
-        val rv : RecyclerView = binding.mainRV
+        val rv: RecyclerView = binding.mainRV
         rv.adapter = rvAdapter
         rv.layoutManager = GridLayoutManager(requireContext(), 2)
 
@@ -69,17 +69,17 @@ class HomeFragment : Fragment() {
     private fun getCategoryData() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for(dataModel in dataSnapshot.children){
-//
+                for (dataModel in dataSnapshot.children) {
+
                     val item = dataModel.getValue(ContentModel::class.java)
                     items.add(item!!)
+                    itemKeyList.add(dataModel.key.toString())
                 }
-//                rvAdapter.notifyDataSetChanged()
+                rvAdapter.notifyDataSetChanged()
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
-                Log.w("ContentsListActivity", "loadPost:onCancelled", databaseError.toException())
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
         FBRef.category1.addValueEventListener(postListener)
